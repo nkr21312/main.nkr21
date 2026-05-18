@@ -8,6 +8,7 @@
     <meta name="keywords" content="NKRHUB, online tools, AI PDF reader, calculators, free tools">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5831993693112977"
      crossorigin="anonymous"></script>
 </head>
@@ -298,11 +299,33 @@
             menu.classList.toggle('hidden');
         });
 
-        // Contact form handler
+        // Contact form handler using EmailJS
         function handleContact(e) {
             e.preventDefault();
-            alert('Thank you for your message! We will get back to you soon.');
-            e.target.reset();
+            const name = e.target.querySelector('input[type="text"]').value;
+            const email = e.target.querySelector('input[type="email"]').value;
+            const message = e.target.querySelector('textarea').value;
+            
+            // Initialize EmailJS with your public key
+            // Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
+            emailjs.init('BLuY3UZLKEEQo-LAp');
+            
+            const templateParams = {
+                from_name: name,
+                from_email: email,
+                message: message,
+                to_email: 'nikhilkr076@gmail.com'
+            };
+            
+            // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with your actual EmailJS credentials
+            emailjs.send('service_7sw7zoh', 'template_v1zrvl9', templateParams)
+                .then(function(response) {
+                    alert('Message sent successfully! We will get back to you soon.');
+                    e.target.reset();
+                }, function(error) {
+                    alert('Failed to send message. Please try again or contact us directly at nikhilkr076@gmail.com');
+                    console.error('EmailJS Error:', error);
+                });
         }
 
         // Smooth scroll
